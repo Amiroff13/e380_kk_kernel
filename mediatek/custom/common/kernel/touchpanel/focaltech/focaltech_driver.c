@@ -1133,22 +1133,23 @@ void tpd_enable_hallsensor_dov(u8 enable)
 			    for(i =0; i<point_num; i++)//only support 3 point
 			    {
 			        // tpd_down(cinfo.x[i], cinfo.y[i], cinfo.id[i]);
-				if(cinfo.y[i]>TPD_RES_Y) //button area
-					tpd_down(cinfo.x[i], cinfo.y[i], cinfo.id[i]);
-				else	//lcd area
-					tpd_down(TPD_WARP_X(cinfo.x[i]), TPD_WARP_Y(cinfo.y[i]), cinfo.id[i]);
-			    }
-				
+				if(cinfo.y[i]<80) //button area
+					tpd_down(cinfo.x[i], TPD_WARP_Y_BUTTONS(cinfo.y[i]), cinfo.id[i]);
+					else //lcd area
+						tpd_down(TPD_WARP_X(cinfo.x[i]), TPD_WARP_Y(cinfo.y[i]), cinfo.id[i]);
+				}
+			    
 			    input_sync(tpd->dev);
 			}
 			else  
     		{
 			    //tpd_up(cinfo.x[0], cinfo.y[0]);
-				if(cinfo.y[0]>TPD_RES_Y) //button area
-					tpd_up(cinfo.x[0], cinfo.y[0]);
-				else	//lcd area
-					tpd_up(TPD_WARP_X(cinfo.x[0]), TPD_WARP_Y(cinfo.y[0]));			    
-        	    //TPD_DEBUG("release --->\n"); 
+
+if(cinfo.y[0]<80) //button area
+tpd_up(cinfo.x[0], TPD_WARP_Y_BUTTONS(cinfo.y[0]));
+else //lcd area
+tpd_up(TPD_WARP_X(cinfo.x[0]), TPD_WARP_Y(cinfo.y[0])); 
+//TPD_DEBUG("release --->\n");
         	    //input_mt_sync(tpd->dev);
         	    input_sync(tpd->dev);
         		}
